@@ -1,0 +1,11 @@
+{
+  "Style_and_Artistic_Period": ["Fantasy", "Renaissance", "Gothic", "Neo-noir", "Vintage", "Futuristic", "Painting", "Watercolor", "3D effect", "Cartoonish", "Minimalist", "Stylized", "Conceptual", "Surreal", "Glitch effect", "Cyber", "Realistic", "Figurative", "Playful"],
+  "Environments_and_Landscapes": ["Forest", "Sea/Lake", "Snowy landscape", "Dirt road", "Urban environment", "Temple", "Brutalism", "Futuristic structure", "Ordered room", "Alien landscape", "Surreal landscape", "Cyber environment", "Sunset", "70s-80s style", "Nighttime"],
+  "Pose_and_Perspective": ["Back view", "Close-up", "Foreground", "Central subject", "Overlapping subjects", "Symmetry", "Trio (three people/subjects)", "Single subject", "Tight framing", "Wide framing", "Distorted perspective"],
+  "Content_and_Thematic_Subjects": ["Feminine", "Erotic", "Nostalgia", "Dark atmosphere", "Allure", "Relaxing", "Serenity", "Melancholy", "Provocation", "Natural girl", "Reflective girls", "Cyber subjects", "Alien theme", "Fantasy theme", "Unsettling", "Playful"],
+  "Objects_and_Design": ["Designer table", "Designer chair", "Sofa", "Stereo and CD", "Common object", "Surreal objects", "Symbolic object", "Neon cross", "Alien object", "Cyber design", "Geometric design", "Futuristic objects", "Large mechanical object", "Water tunnel"],
+  "Colors_and_Stylized_Atmosphere": ["Red", "Blue", "Green", "Yellow", "Beige", "Black", "Lilac", "Brown", "Warm colors", "Cool colors", "Neutral tones", "Desaturated", "Dark tones", "Light tones", "Grayscale", "Neon colors", "Soft lighting", "Natural light", "Artificial light", "Cyber effect", "Surreal atmosphere"],
+  "Materiality_and_Texture": ["Metallic", "Plastic", "Marble-like", "Wooden", "Transparent", "Furry", "Fabric", "Rocky", "Soft texture", "Hard texture", "Ethereal"],
+  "Image_Quality": ["High quality", "Medium quality", "Low quality", "Photorealistic details", "High resolution", "Sharpness", "Soft texture", "Hard texture", "Vintage effect"],
+  "Visual_Errors": ["Texture defects", "Proportion defects", "Hand defects", "Face defects", "Distorted", "Pointillism", "High/low exposure", "Glitch effect", "Overlapping subjects"]
+}

@@ -1,0 +1,413 @@
+body {
+    background-color: #010101;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    overflow: auto;
+    scroll-behavior: smooth;
+    color: #ECECEC;
+}
+
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #000; /* Sfondo nero */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* Assicurati che sia sopra tutto */
+}
+
+#preloader img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+#error-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    scale: 100%;
+    background-color: #000; /* Sfondo nero */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* Assicurati che sia sopra tutto */
+}
+
+#error-screen img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+#confirmation-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #000; /* Sfondo nero */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* Assicurati che sia sopra tutto */
+}
+
+#confirmation-screen img {
+    max-width: 100%;
+    max-height: 100%;
+    scale: 50%;
+}
+
+/* Nascondi il contenuto principale inizialmente */
+#main-content.hidden {
+    display: none; /* Nasconde tutto il sito */
+}
+
+/* Nascondi il contenuto principale inizialmente */
+#main-content {
+    transition: opacity 0.5s ease; /* Transizione per mostrare il contenuto */
+}
+
+#title {
+    display: flex;
+    border-bottom: 0.3px solid #ECECEC;
+    border-right: 0.3px solid #ECECEC;
+    border-left: 0.3px solid #ECECEC;
+    border-top: 0.3px solid #ECECEC;
+    width: 99vw;
+    gap: 41%;
+    z-index: 1;
+    height: 80px;
+    overflow: hidden;
+    position: fixed;
+    background-color: #010101;
+}
+
+#logo {
+    margin: auto;
+   width: 100vw;
+    padding: 5px;
+}
+
+#headers{
+    display: flex;
+    border-bottom: 0.3px solid #ECECEC;
+    border-left: 0.3px solid #ECECEC;
+    border-right: 0.3px solid #ECECEC;
+    overflow: hidden;
+    position: relative;
+    top: 80px;
+    font-size: 32px;
+    font-weight: 100;
+    transition: transform 0.3s ease-in-out;
+}
+
+#headers.hide {
+    transform: translateY(-100%); /* Slide header up */
+    position: relative; /* Remove from normal flow when hidden */
+    top: 0; /* Keep it at the top even when absolute */
+    left: 0;
+    right: 0;
+}
+
+#description{
+    margin-left: 28px;
+    margin-right: 28px;
+}
+
+
+#image-section {
+    display: flex; /* Abilita Flexbox */
+    justify-content: center; /* Centra orizzontalmente il contenuto */
+    align-items: center; /* Centra verticalmente il contenuto */
+    border-bottom: 0.3px solid #ECECEC;
+    border-right: 0.3px solid #ECECEC;
+    border-left: 0.3px solid #ECECEC;
+    width: 50vw;
+    height: 89vh;
+    position: sticky;
+    top: 0;
+    overflow: hidden;
+}
+
+#image-section.full-width {
+    width: 100vw; /* Sezione immagine al 100% della larghezza */
+}
+
+
+/* Preview dell'immagine */
+#image-preview {
+    display: inline-block;
+    max-width: 60%;
+    border-radius: 8px;
+    display: block;
+    margin-bottom: 40px;
+}
+
+#reset-button {
+    display: none; /* Nascondi inizialmente */
+    position: absolute;
+    bottom: 20px; /* Posiziona in basso */
+    left: 50%;
+    transform: translateX(-50%); /* Centra orizzontalmente */
+    padding: 10px 20px;
+    background-color: #010101;
+    border: 0.3px solid #ECECEC;
+    color: #ECECEC;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    z-index: 10;
+}
+
+#reset-button:hover {
+    background-color: #ECECEC;
+    color: #010101;
+}
+
+
+#tag-section {
+    display: none; /* Nascondi inizialmente */
+    position: relative;
+    border-bottom: 0.3px solid #ECECEC;
+    border-right: 0.3px solid #ECECEC;
+    width: 50vw;
+    overflow-y: auto;
+    height: 89vh; /* Stessa altezza dell'elemento sinistro */
+    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out; /* Transizioni per animazione */
+    transform: translateX(100%); /* Fuori dalla vista verso destra */
+    opacity: 0; /* Nascondi con opacità */
+}
+
+#tag-section.visible {
+    display: block;
+    transform: translateX(0); /* Torna in posizione */
+    opacity: 1; /* Mostra con opacità */
+}
+
+
+#analisis-section {
+    display: flex;
+    position: relative;
+    width: 100%;
+    padding-top: 80px;
+    height: 82vh; /* Imposta un'altezza fissa per il contenitore principale */
+}
+
+#headers.hide + #analisis-section {
+    margin-top: -80px; /* Shift the sections up when header is hidden */
+}
+
+
+#image-input {
+    display: none;
+}
+
+#file-label {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #ECECEC;
+    color: #000000;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-align: center;
+}
+
+#file-label:hover {
+    background-color: #ff3700;
+    color: #ECECEC;
+}
+
+#save-button {
+    position: fixed; /* Posizionato in relazione a #tag-section */
+    bottom: 2%; /* Fissa alla parte inferiore di #tag-section */
+    right: 1%; /* Centra orizzontalmente */
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    background-color: #ECECEC;
+    color: #000000;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    z-index: 10;
+}
+
+#save-button:hover {
+    background-color: #ff3700;
+    color: #000000;
+}
+
+.macro-chip {
+    display: flex;
+    padding: 8px 16px;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: #ECECEC;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 14px;
+    color: #000000;
+}
+
+/* Stili generali per le chips */
+.tag-list .choice-chip {
+    display: inline-flex;
+    padding: 6px 12px;
+    border: 0.3px solid #ECECEC;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #ECECEC;
+    background-color: #000000;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    margin-left: 20px;
+    margin-bottom: 10px;
+}
+
+/* Chip per aggiungere nuovi tag */
+.add-tag-chip {
+    background-color: #4CAF50; /* Verde per indicare "aggiungi" */
+    color: white;
+    border: none;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 6px 12px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.add-tag-chip:hover {
+    background-color: #ECECEC;
+    color: #010101; /* Colore più scuro per hover */
+}
+
+/* Input per aggiungere nuovi tag */
+.new-tag-input {
+    display: inline-block;
+    padding: 6px 12px;
+    border: 1px solid #ECECEC;
+    border-radius: 8px;
+    font-size: 14px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    font-family: inherit;
+}
+
+ .Style_and_Artistic_Period.selected{
+    background-color: rgb(89, 0, 255);
+    color: #010101;
+}
+
+.Style_and_Artistic_Period:hover{
+    background-color: rgb(89, 0, 255);
+    color: #010101;
+}
+
+
+.Environments_and_Landscapes.selected{
+    background-color: yellow;
+    color: #010101;
+}
+
+.Environments_and_Landscapes:hover{
+    background-color: yellow;
+    color: #010101;
+}
+
+.Pose_and_Perspective.selected{
+    background-color: rgb(255, 0, 200);
+    color: #010101;
+}
+
+.Pose_and_Perspective:hover{
+    background-color: rgb(255, 0, 200);
+    color: #010101;
+}
+
+.Content_and_Thematic_Subjects.selected{
+    background-color: rgb(0, 255, 89);
+    color: #010101;
+}
+
+.Content_and_Thematic_Subjects:hover{
+    background-color: rgb(0, 255, 89);
+    color: #010101;
+}
+
+.Objects_and_Design.selected{
+    background-color: rgb(0, 0, 255);
+    color: #010101;
+}
+
+.Objects_and_Design:hover{
+    background-color: rgb(0, 0, 255);
+    color: #010101;
+}
+
+.Colors_and_Stylized_Atmosphere.selected{
+    background-color: rgb(255, 0, 98);
+    color: #010101;
+}
+
+.Colors_and_Stylized_Atmosphere:hover{
+    background-color: rgb(255, 0, 98);
+    color: #010101;
+}
+
+.Materiality_and_Texture.selected{
+    background-color: rgb(195, 255, 0);
+    color: #010101;
+}
+
+.Materiality_and_Texture:hover{
+    background-color: rgb(195, 255, 0);
+    color: #010101;
+}
+
+.Image_Quality.selected{
+    background-color: rgb(0, 255, 247);
+    color: #010101;
+}
+
+.Image_Quality:hover{
+    background-color:rgb(0, 255, 247);
+    color: #010101;
+}
+
+.Visual_Errors.selected{
+    background-color: rgb(255, 0, 25);
+    color: #010101;
+}
+
+.Visual_Errors:hover{
+    background-color:rgb(255, 0, 25);
+    color: #010101;
+}
+
+.Others.selected {
+    background-color: #ff3c00; /* Arancione per indicare "altro" */
+    color: #010101;
+}
+
+.Others:hover {
+    background-color: #ff3c00;
+    color: #010101;
+}
+

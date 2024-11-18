@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SLOMO©</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="favico-04-02.png">
+</head>
+<body>
+<div id="preloader">
+    <img src="logo_ani.gif" alt="Opening Animation">
+</div>
+
+<div id="error-screen" style="display: none;">
+    <img src="error.png" alt="Error: Unsupported Device">
+</div>
+
+<div id="confirmation-screen" style="display: none;">
+    <img src="confirmation.png" alt="Tags Saved Successfully">
+</div>
+
+<div id="main-content" style="opacity: 0;">
+<div id="title">
+    <img src="logo.svg" alt="Logo" id="logo">
+ </div>
+
+<div id="headers">
+    <div id= "description"> <p> IN AN AGE DEFINED BY OVERPRODUCTION AND RAPID CONSUMPTION, TAKE A STEP BACK. EMBRACE A SLOWER, MORE INTENTIONAL APPROACH, CREATING SPACE FOR REFLECTION AND NEW PERSPECTIVES TO ENRICH YOUR CREATIVE JOURNEY.</p> </div>
+    <!-- <div id="header-left">
+        <p>UPLOAD YOUR <br>GENERATIVE WASTE HERE</p>
+    </div>
+    
+    <div id="header-right">
+        <p>CHOOSE THE TAGS <br>TO DESCRIBE YOUR IMAGE</p>
+    </div>  -->
+   
+</div>
+<div id="analisis-section">
+    <div id="image-section">
+        <label id="file-label" for="image-input">upload image</label>
+        <input type="file" id="image-input" accept="image/*">
+        <img id="image-preview" src="" alt="Image Preview" style="display: none;">
+    </div>
+    
+    <div id="tag-section">
+        <!-- Contenuto dei tag -->
+    </div>
+    <button id="save-button">Save Tags</button>
+
+
+</div>
+
+
+
+<script src="tool.js"></script>
+</body>
+</html>
