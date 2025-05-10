@@ -149,6 +149,31 @@ body {
     margin-bottom: 40px;
 }
 
+#image-section {
+    position: relative; /* già c’è, ma verifica */
+  }
+  
+  #image-tag-overlay {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    pointer-events: none; /* i click passano all’immagine */
+    z-index: 5;
+  }
+  
+  .image-tag {
+    /* rimuovi background / color / padding se vuoi affidarti solo a choice-chip */
+    /* leftover positioning only: */
+    padding: 0;     /* o tienilo se necessario */
+    border: none;
+    pointer-events: none;
+    font-size: 12px; /* riducilo o adegualo se serve */
+    font-weight: bold;
+  }
+
 #reset-button {
     display: none; /* Nascondi inizialmente */
     position: absolute;

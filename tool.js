@@ -5,6 +5,9 @@ const tagSection = document.getElementById('tag-section');
 const imageSection = document.getElementById('image-section');
 const saveButton = document.getElementById('save-button');
 const header = document.getElementById('headers');
+// Selezione overlay per visualizzazione tag sull'immagine
+const imageTagOverlay = document.getElementById('image-tag-overlay');
+
 let imageName = '';
 let imageResolution = '';
 
@@ -15,106 +18,96 @@ resetButton.innerText = 'Change Image';
 resetButton.style.display = 'none'; // Nascondi inizialmente
 imageSection.appendChild(resetButton); // Inserisci il pulsante in #image-section
 
+// FUNZIONE: crea o aggiorna i tag in overlay sull'immagine
+function updateImageOverlay() {
+    if (!imageTagOverlay) return;
+    // Pulisci overlay esistente
+    imageTagOverlay.innerHTML = '';
+    // Per ogni chip selezionata, aggiungi un badge
+    document.querySelectorAll('.choice-chip.selected').forEach(label => {
+        // crea il badge
+        const span = document.createElement('span');
+        // copia TUTTE le classi dalla label (macroCategory + choice-chip + selected)
+        label.classList.forEach(c => span.classList.add(c));
+        // aggiungi soltanto la classe che serve per il posizionamento overlay
+        span.classList.add('image-tag');
+        span.innerText = label.innerText;
+        imageTagOverlay.appendChild(span);
+      });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const preloader = document.getElementById('preloader');
     const mainContent = document.getElementById('main-content');
 
-    // Imposta la durata della GIF (esempio: 3000ms per 3 secondi)
+    // Imposta la durata della GIF (2 secondi)
     const gifDuration = 2000;
 
     setTimeout(() => {
-        // Nascondi la schermata di apertura
         preloader.style.display = 'none';
-
-        // Mostra il contenuto principale
         mainContent.style.opacity = 1;
     }, gifDuration);
+
+    // Inizializzazione: nascondi tag e overlay, imposta larghezza piena
+    tagSection.classList.remove('visible');
+    imageSection.classList.add('full-width');
+    updateSaveButtonVisibility();
+    saveButton.addEventListener('click', saveTags);
 });
 
 document.addEventListener('DOMContentLoaded', () => {
     const errorScreen = document.getElementById('error-screen');
     const mainContent = document.getElementById('main-content');
-
-    // Soglia di larghezza (es. 768px per dispositivi mobili)
     const widthThreshold = 768;
 
     function checkWindowSize() {
         if (window.innerWidth < widthThreshold) {
-            // Mostra la schermata di errore
             errorScreen.style.display = 'flex';
             mainContent.classList.add('hidden');
         } else {
-            // Mostra il contenuto principale
             errorScreen.style.display = 'none';
             mainContent.classList.remove('hidden');
         }
     }
 
-    // Controlla la dimensione della finestra al caricamento
     checkWindowSize();
-
-    // Aggiungi un listener per rilevare cambiamenti nelle dimensioni della finestra
     window.addEventListener('resize', checkWindowSize);
 });
 
-// Gestione dello scroll per nascondere/mostrare l'header
+// Gestione scroll per nascondere/mostrare l'header
 let lastScrollTop = 0;
 window.addEventListener('scroll', function () {
     const scrollTop = window.scrollY;
-
     if (scrollTop > lastScrollTop) {
-        // L'utente scorre verso il basso: nascondi l'header
         header.classList.add('hide');
     } else {
-        // L'utente scorre verso l'alto: mostra l'header
         header.classList.remove('hide');
     }
-
     lastScrollTop = scrollTop;
 });
 
 // Funzione per aggiornare la visibilità del pulsante Save
 function updateSaveButtonVisibility() {
-    if (tagSection.classList.contains('visible')) {
-        saveButton.style.display = 'block';
-    } else {
-        saveButton.style.display = 'none';
-    }
+    saveButton.style.display = tagSection.classList.contains('visible') ? 'block' : 'none';
 }
 
 // Funzione per resettare l'immagine e lo stato iniziale
 function resetImage() {
-    // Reset delle variabili
     imageName = '';
     imageResolution = '';
-
-    // Resetta l'input file
-    imageInput.value = ''; // Questo consente di rilevare un nuovo evento change
-
-    // Rimuovi l'anteprima immagine
+    imageInput.value = '';
     imagePreview.src = '';
     imagePreview.style.display = 'none';
-
-    // Mostra di nuovo il bottone di upload
     document.getElementById('file-label').style.display = 'inline-block';
-
-    // Nascondi la sezione tag e ripristina la larghezza piena della sezione immagine
     tagSection.classList.remove('visible');
     imageSection.classList.add('full-width');
-
-    // Nascondi il pulsante di reset
     resetButton.style.display = 'none';
-
-    // Aggiorna la visibilità del pulsante Save
     updateSaveButtonVisibility();
 
-    // Rimuovi la classe .selected da tutti i tag
-    document.querySelectorAll('.choice-chip.selected').forEach(tag => {
-        tag.classList.remove('selected');
-    });
+    // Deseleziona tutti i tag e pulisci overlay
+    document.querySelectorAll('.choice-chip.selected').forEach(tag => tag.classList.remove('selected'));
+    if (imageTagOverlay) imageTagOverlay.innerHTML = '';
 }
-
-// Aggiungi un evento al pulsante di reset
 resetButton.addEventListener('click', resetImage);
 
 // Gestione del caricamento e anteprima dell'immagine
@@ -129,119 +122,91 @@ imageInput.addEventListener('change', function (event) {
         };
         reader.readAsDataURL(file);
 
-        // Calcola la risoluzione dell'immagine una volta caricata
+        // Calcola la risoluzione
         const img = new Image();
         img.onload = function () {
             imageResolution = `${img.width}x${img.height}`;
         };
         img.src = URL.createObjectURL(file);
 
-        // Mostra la sezione dei tag e aggiorna la larghezza della sezione immagine
+        // Mostra sezione tag e overlay
         setTimeout(() => {
             tagSection.classList.add('visible');
             imageSection.classList.remove('full-width');
-            updateSaveButtonVisibility(); // Aggiorna visibilità pulsante Save
+            updateSaveButtonVisibility();
         }, 300);
 
-        // Mostra il pulsante di reset
         resetButton.style.display = 'block';
-
-        // Nascondi il bottone di upload
         document.getElementById('file-label').style.display = 'none';
     }
 });
 
-// Inizializzazione: Assicurati che l'immagine sia a piena larghezza quando non ci sono immagini
-document.addEventListener('DOMContentLoaded', () => {
-    tagSection.classList.remove('visible');
-    imageSection.classList.add('full-width');
-    updateSaveButtonVisibility(); // Nascondi il pulsante Save all'avvio
-
-    // Collega il pulsante "Save Tags"
-    saveButton.addEventListener('click', saveTags);
-});
-
-// Funzione per caricare i tag dal file JSON e creare le categorie
+// Caricamento dei tag da tags.json e creazione delle categorie
 fetch('tags.json')
     .then(response => response.json())
     .then(data => {
-        // Gestione delle macro-categorie dal file JSON
         for (const [macroCategory, tags] of Object.entries(data)) {
             createMacroCategory(macroCategory, tags);
         }
-
-        // Aggiungi la macro-categoria "Others" vuota con solo la chip "+"
         createMacroCategory('Others', []);
     })
     .catch(error => console.error('Error loading tags:', error));
 
-// Funzione per creare una macro-categoria con i suoi tag
+// Creazione di macro-categoria e relative chip
 function createMacroCategory(macroCategory, tags) {
     const categoryDiv = document.createElement('div');
     categoryDiv.classList.add('tag-category');
 
-    // Crea una chip per la macro-categoria
     const macroChip = document.createElement('div');
     macroChip.classList.add('macro-chip');
     macroChip.innerText = macroCategory.replace(/_/g, ' ');
     categoryDiv.appendChild(macroChip);
 
-    // Crea il contenitore per i tag
     const tagListDiv = document.createElement('div');
     tagListDiv.classList.add('tag-list');
+
     tags.forEach(tag => {
         const label = document.createElement('label');
-        label.classList.add('choice-chip');
-        label.classList.add(macroCategory); // Assegna la classe della macro-categoria
+        label.classList.add('choice-chip', macroCategory);
         label.innerText = tag;
-
-        // Aggiunge e rimuove la classe `.selected`
+        // Qui aggiungiamo updateImageOverlay()
         label.addEventListener('click', () => {
             label.classList.toggle('selected');
+            updateImageOverlay();
             console.log(`${tag} selected: ${label.classList.contains('selected')}`);
         });
-
         tagListDiv.appendChild(label);
     });
 
-    // Aggiungi la chip "+" per aggiungere nuovi tag
     const addTagChip = document.createElement('div');
-    addTagChip.classList.add('choice-chip', 'add-tag-chip'); // Classe per lo stile
+    addTagChip.classList.add('choice-chip', 'add-tag-chip');
     addTagChip.innerText = '+';
     addTagChip.title = 'Add a new tag';
 
-    // Gestisce l'aggiunta di nuovi tag
     addTagChip.addEventListener('click', () => {
         const input = document.createElement('input');
         input.type = 'text';
         input.placeholder = 'Enter new tag';
         input.classList.add('new-tag-input');
-
-        // Aggiungi l'input dopo la chip `+`
         tagListDiv.appendChild(input);
         input.focus();
 
-        // Salva il nuovo tag quando l'utente preme Enter
         input.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' && input.value.trim() !== '') {
                 const newTag = input.value.trim();
                 const newLabel = document.createElement('label');
-                newLabel.classList.add('choice-chip');
-                newLabel.classList.add(macroCategory);
+                newLabel.classList.add('choice-chip', macroCategory);
                 newLabel.innerText = newTag;
-
-                // Aggiunge il comportamento di selezione
+                // Anche qui, bindiamo updateImageOverlay()
                 newLabel.addEventListener('click', () => {
                     newLabel.classList.toggle('selected');
+                    updateImageOverlay();
                     console.log(`${newTag} selected: ${newLabel.classList.contains('selected')}`);
                 });
-
-                // Aggiungi il nuovo tag e rimuovi l'input
                 tagListDiv.insertBefore(newLabel, addTagChip);
                 input.remove();
                 console.log(`New tag added to ${macroCategory}: ${newTag}`);
             } else if (e.key === 'Escape') {
-                // Se l'utente preme Esc, rimuovi l'input
                 input.remove();
             }
         });
@@ -252,13 +217,13 @@ function createMacroCategory(macroCategory, tags) {
     tagSection.appendChild(categoryDiv);
 }
 
-// Funzione per salvare i tag selezionati
+// Salvataggio dei tag selezionati in JSON
 function saveTags() {
     const selectedTags = [];
     document.querySelectorAll('.choice-chip.selected').forEach(label => {
         selectedTags.push({
             tag: label.innerText,
-            macroCategory: label.classList.contains('Others') ? 'Others' : label.classList[1] // Usa il secondo elemento della classe come categoria
+            macroCategory: label.classList.contains('Others') ? 'Others' : label.classList[1]
         });
     });
 
@@ -279,55 +244,41 @@ function saveTags() {
 
     const confirmationScreen = document.getElementById('confirmation-screen');
     const mainContent = document.getElementById('main-content');
-
     confirmationScreen.style.display = 'flex';
     mainContent.classList.add('hidden');
 
-    // Nascondi la schermata di conferma e torna al contenuto principale dopo 3 secondi
     setTimeout(() => {
         confirmationScreen.style.display = 'none';
         mainContent.classList.remove('hidden');
         resetMainContent();
-    }, 3000); // Modifica 3000 per cambiare la durata (in millisecondi)
-    
+    }, 3000);
 }
 
 function resetMainContent() {
-    // Reset delle variabili globali
     imageName = '';
     imageResolution = '';
-
-    // Resetta l'input file
     const imageInput = document.getElementById('image-input');
     imageInput.value = '';
-
-    // Nascondi l'anteprima immagine
     const imagePreview = document.getElementById('image-preview');
     imagePreview.src = '';
     imagePreview.style.display = 'none';
-
-    // Mostra il bottone di upload immagine
     const fileLabel = document.getElementById('file-label');
     fileLabel.style.display = 'inline-block';
-
-    // Nascondi la sezione tag
     const tagSection = document.getElementById('tag-section');
     tagSection.classList.remove('visible');
-
-    // Ripristina la larghezza piena della sezione immagine
     const imageSection = document.getElementById('image-section');
     imageSection.classList.add('full-width');
-
     // Deseleziona tutti i tag
-    document.querySelectorAll('.choice-chip.selected').forEach(tag => {
-        tag.classList.remove('selected');
-    });
+  document.querySelectorAll('.choice-chip.selected')
+  .forEach(tag => tag.classList.remove('selected'));
 
-    // Nascondi il pulsante di reset immagine
-    const resetButton = document.getElementById('reset-button');
-    resetButton.style.display = 'none';
+// **NUOVO**: svuota l'overlay dei badge
+if (imageTagOverlay) imageTagOverlay.innerHTML = '';
 
-        // Aggiorna la visibilità del pulsante Save
-        updateSaveButtonVisibility();
+// Nascondi il pulsante di reset immagine
+const resetButton = document.getElementById('reset-button');
+resetButton.style.display = 'none';
+
+// Aggiorna la visibilità del pulsante Save
+updateSaveButtonVisibility();
 }
-
